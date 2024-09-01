@@ -16,6 +16,7 @@ install_plugin('/pack/nvim/start/nvim-lualine', 'https://github.com/nvim-lualine
 install_plugin('/pack/themes/start/onedark.nvim', 'https://github.com/navarasu/onedark.nvim.git')
 
 -- Setup LSP
+-- Ubuntu: sudo apt install clangd
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup({
   name = 'clangd',
