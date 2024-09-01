@@ -1,3 +1,8 @@
+-- clang: https://clang.llvm.org/get_started or package manager
+-- clangd: https://clangd.llvm.org/installation
+-- zig: https://ziglang.org/learn/getting-started/#linux
+-- zls in /usr/bin/zls: https://zigtools.org/zls/install/
+
 -- Install plugins
 local function install_plugin(path, repo)
     local full_path = vim.fn.stdpath('config') .. path;
@@ -16,7 +21,6 @@ install_plugin('/pack/nvim/start/nvim-lualine', 'https://github.com/nvim-lualine
 install_plugin('/pack/themes/start/onedark.nvim', 'https://github.com/navarasu/onedark.nvim.git')
 
 -- Setup LSP
--- Ubuntu: sudo apt install clangd
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup({
   name = 'clangd',
@@ -25,6 +29,7 @@ lspconfig.clangd.setup({
     fallback_flags = { '-std=c++17' },
   },
 })
+lspconfig.zls.setup{}
 
 -- Setup theme
 require('onedark').setup {
@@ -55,4 +60,4 @@ vim.opt.cindent = true
 vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent = true })                          -- Open explorer
 vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })  -- Open terminal
 vim.api.nvim_set_keymap('n', '<leader>r', ':lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })     -- Rename
-vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true }) -- Go to definition
+vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true
