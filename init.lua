@@ -1,5 +1,4 @@
--- clang: https://clang.llvm.org/get_started or package manager
--- clangd: https://clangd.llvm.org/installation
+-- clang: https://clang.llvm.org/get_started or package manager clangd: https://clangd.llvm.org/installation
 -- zig: https://ziglang.org/learn/getting-started/#linux
 -- zls in /usr/bin/zls: https://zigtools.org/zls/install/
 
@@ -18,6 +17,7 @@ end
 
 install_plugin('/pack/nvim/start/nvim-lspconfig', 'https://github.com/neovim/nvim-lspconfig')
 install_plugin('/pack/nvim/start/nvim-lualine', 'https://github.com/nvim-lualine/lualine.nvim')
+install_plugin('/pack/nvim/start/nvim-web-devicons', 'https://github.com/nvim-tree/nvim-web-devicons')
 install_plugin('/pack/themes/start/onedark.nvim', 'https://github.com/navarasu/onedark.nvim.git')
 
 -- Setup LSP
@@ -37,6 +37,7 @@ require('lualine').setup {
         theme = 'onedark' 
     }
 }
+require('nvim-web-devicons').setup{}
 
 -- Configure formatting
 vim.opt.tabstop = 4      -- Number of visual spaces per TAB
@@ -58,4 +59,4 @@ vim.o.secure = true
 vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent = true })                          -- Open explorer
 vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })  -- Open terminal
 vim.api.nvim_set_keymap('n', '<leader>r', ':lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })     -- Rename
-vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true
+vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true }) -- Go to definition
