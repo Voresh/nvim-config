@@ -50,6 +50,10 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.cindent = true
 
+-- Enable local config
+vim.o.exrc = true
+vim.o.secure = true
+
 -- Configure Hotkeys
 vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent = true })                          -- Open explorer
 vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })  -- Open terminal
