@@ -22,13 +22,7 @@ install_plugin('/pack/themes/start/onedark.nvim', 'https://github.com/navarasu/o
 
 -- Setup LSP
 local lspconfig = require('lspconfig')
-lspconfig.clangd.setup({
-  name = 'clangd',
-  cmd = {'clangd', '--background-index', '--clang-tidy', '--log=verbose'},
-  initialization_options = {
-    fallback_flags = { '-std=c++17' },
-  },
-})
+lspconfig.clangd.setup{}
 lspconfig.zls.setup{}
 
 -- Setup theme
