@@ -1,6 +1,7 @@
 -- clang: https://clang.llvm.org/get_started or package manager clangd: https://clangd.llvm.org/installation
 -- zig: https://ziglang.org/learn/getting-started/#linux
 -- zls in /usr/bin/zls: https://zigtools.org/zls/install/
+-- font: https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf
 
 -- Install plugins
 local function install_plugin(path, repo)
