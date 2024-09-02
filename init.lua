@@ -1,7 +1,7 @@
 -- clang: https://clang.llvm.org/get_started or package manager clangd: https://clangd.llvm.org/installation
 -- zig: https://ziglang.org/learn/getting-started/#linux
 -- zls in /usr/bin/zls: https://zigtools.org/zls/install/
--- font: https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf
+-- glsl in https://github.com/nolanderc/glsl_analyzer
 
 -- Install plugins
 local function install_plugin(path, repo)
@@ -19,12 +19,14 @@ end
 install_plugin('/pack/nvim/start/nvim-lspconfig', 'https://github.com/neovim/nvim-lspconfig')
 install_plugin('/pack/nvim/start/nvim-lualine', 'https://github.com/nvim-lualine/lualine.nvim')
 install_plugin('/pack/nvim/start/nvim-web-devicons', 'https://github.com/nvim-tree/nvim-web-devicons')
+install_plugin('/pack/nvim/start/vim-glsl', 'https://github.com/tikhomirov/vim-glsl')
 install_plugin('/pack/themes/start/onedark.nvim', 'https://github.com/navarasu/onedark.nvim.git')
 
 -- Setup LSP
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup{}
 lspconfig.zls.setup{}
+lspconfig.glsl_analyzer.setup{}
 
 -- Setup theme
 require('onedark').setup {
@@ -61,3 +63,4 @@ vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent =
 vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })  -- Open terminal
 vim.api.nvim_set_keymap('n', '<leader>r', ':lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })     -- Rename
 vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true }) -- Go to definition
+vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })                           -- Unfocus terminal with esc
