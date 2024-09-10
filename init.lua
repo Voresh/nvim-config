@@ -1,4 +1,4 @@
--- clang: https://clang.llvm.org/get_started or package manager clangd: https://clangd.llvm.org/installation
+-- clang: https://clang.llvm.org/get_started or package manager clangd: https://clangd.llvm.org/installation (clang for windows: https://github.com/llvm/llvm-project/releases/tag/llvmorg-18.1.8)
 -- zig: https://ziglang.org/learn/getting-started/#linux
 -- zls in /usr/bin/zls: https://zigtools.org/zls/install/
 -- glsl in https://github.com/nolanderc/glsl_analyzer
