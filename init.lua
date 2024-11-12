@@ -29,7 +29,6 @@ install_plugin('/pack/nvim/start/nvim-lspconfig', 'https://github.com/neovim/nvi
 install_plugin('/pack/nvim/start/nvim-lualine', 'https://github.com/nvim-lualine/lualine.nvim')
 install_plugin('/pack/nvim/start/nvim-web-devicons', 'https://github.com/nvim-tree/nvim-web-devicons')
 install_plugin('/pack/nvim/start/vim-glsl', 'https://github.com/tikhomirov/vim-glsl')
-install_plugin('/pack/themes/start/onedark.nvim', 'https://github.com/navarasu/onedark.nvim.git')
 install_plugin('/pack/themes/start/darcula-dark.nvim', 'https://github.com/xiantang/darcula-dark.nvim')
 install_plugin('/pack/nvim/start/nvim-treesitter', 'https://github.com/nvim-treesitter/nvim-treesitter')
 install_plugin('/pack/nvim/start/blink.cmp', 'https://github.com/Saghen/blink.cmp', 'v0.5.1')
