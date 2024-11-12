@@ -106,8 +106,6 @@ vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent =
 vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })    -- Open terminal
 vim.api.nvim_set_keymap('n', '<leader>r', ':lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })       -- Rename
 vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })   -- Go to definition
-vim.api.nvim_set_keymap('n', '<leader>a', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })  -- Go to definition
+vim.api.nvim_set_keymap('n', '<leader>a', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })  -- Code action
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })                             -- Unfocus terminal with esc
-vim.api.nvim_set_keymap('n', '<leader>s', ':Telescope lsp_document_symbols<CR>', { noremap = true, silent = true }) -- Paste from mac clipboard
-vim.api.nvim_set_keymap('n', '<leader>f', ':Telescope find_files<CR>', { noremap = true, silent = true })           -- Search files
 vim.api.nvim_set_keymap('n', '<leader>p', ':lua format()<CR>', { noremap = true, silent = true })                   -- Format
