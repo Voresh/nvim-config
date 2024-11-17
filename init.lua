@@ -101,6 +101,14 @@ function _G.format()
   vim.cmd("edit")
 end
 
+-- Autocommands
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = { "*.cpp", "*.hpp" },
+    callback = function()
+        format()
+    end,
+})
+
 -- Configure Hotkeys
 vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent = true })                            -- Open explorer
 vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })    -- Open terminal
