@@ -69,6 +69,11 @@ install_plugin('/pack/themes/start/darcula-dark.nvim', 'https://github.com/xiant
 install_plugin('/pack/nvim/start/nvim-treesitter', 'https://github.com/nvim-treesitter/nvim-treesitter', 'v0.9.3')
 install_plugin('/pack/nvim/start/blink.cmp', 'https://github.com/Saghen/blink.cmp', 'v0.8.1')
 
+-- Experimental plugins
+install_plugin('/pack/nvim/start/vim-fugitive', 'https://github.com/tpope/vim-fugitive', 'v3.7') -- vim-flog dependency
+-- install_plugin('/pack/nvim/start/vim-flog', 'https://github.com/rbong/vim-flog', 'v3.0.0')
+-- install_plugin('/pack/nvim/start/gv', 'https://github.com/junegunn/gv.vim')
+
 -- Setup Treesitter
 require('nvim-treesitter.configs').setup {
     ensure_installed = {"c", "cpp", "markdown"},
@@ -83,16 +88,28 @@ require('nvim-treesitter.configs').setup {
 -- Setup Blink CMP
 require('blink.cmp').setup {
     appearance = {use_nvim_cmp_as_default = true, nerd_font_variant = 'mono'},
---    completion = {menu = {auto_show = false}},
+    completion = {
+	    trigger = {
+            show_on_keyword = true,
+        },
+        accept = {
+            auto_brackets = {
+                enabled = false,
+            }   
+        },
+        ghost_text = {
+            enabled = false,
+        },
+    },
     keymap = {
         preset = 'super-tab',
---        ['<leader>y'] = {'show'},
-    },
+    }
 }
 
 -- Setup LSP
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup {
+    cmd = { "clangd", "--header-insertion=never" },
     config = function(_, opts)
         for server, config in pairs(opts.servers or {}) do
             config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
