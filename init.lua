@@ -1,12 +1,6 @@
 -- clang: https://clang.llvm.org/get_started or package manager clangd: https://clangd.llvm.org/installation
 -- clang-format: apt install clang-format
--- zig: https://ziglang.org/learn/getting-started/#linux
--- zls in /usr/bin/zls: https://zigtools.org/zls/install/
--- glsl in https://github.com/nolanderc/glsl_analyzer
 
--- Install and setup required plugins
-
--- Function to get the Git tag of a repository
 local function get_git_tag(path)
     local command = {'git', '-C', path, 'describe', '--tags'}
     local tag = vim.fn.system(command)
@@ -18,11 +12,10 @@ local function get_git_tag(path)
     return nil
 end
 
--- Function to install a plugin
 local function install_plugin(path, repo, tag)
     local full_path = vim.fn.stdpath('config') .. path
 
-    -- Clone plugin if not already installed
+    -- Clone plugin if not installed
     if vim.fn.empty(vim.fn.glob(full_path)) > 0 then
         local git_cmd = {'git', 'clone', repo, full_path}
         if tag and #tag > 0 then
@@ -61,22 +54,17 @@ local function install_plugin(path, repo, tag)
 end
 
 -- Install plugins
-install_plugin('/pack/nvim/start/nvim-lspconfig', 'https://github.com/neovim/nvim-lspconfig', 'v1.2.0')
+install_plugin('/pack/nvim/start/nvim-lspconfig', 'https://github.com/neovim/nvim-lspconfig', 'v1.7.0')
 install_plugin('/pack/nvim/start/nvim-lualine', 'https://github.com/nvim-lualine/lualine.nvim')
 install_plugin('/pack/nvim/start/nvim-web-devicons', 'https://github.com/nvim-tree/nvim-web-devicons')
-install_plugin('/pack/nvim/start/vim-glsl', 'https://github.com/tikhomirov/vim-glsl')
 install_plugin('/pack/themes/start/darcula-dark.nvim', 'https://github.com/xiantang/darcula-dark.nvim')
 install_plugin('/pack/nvim/start/nvim-treesitter', 'https://github.com/nvim-treesitter/nvim-treesitter', 'v0.9.3')
-install_plugin('/pack/nvim/start/blink.cmp', 'https://github.com/Saghen/blink.cmp', 'v0.8.1')
+install_plugin('/pack/nvim/start/blink.cmp', 'https://github.com/Saghen/blink.cmp', 'v1.1.1')
+install_plugin('/pack/nvim/start/nvim-scrollbar', 'https://github.com/petertriho/nvim-scrollbar')
 
--- Experimental plugins
-install_plugin('/pack/nvim/start/vim-fugitive', 'https://github.com/tpope/vim-fugitive', 'v3.7') -- vim-flog dependency
--- install_plugin('/pack/nvim/start/vim-flog', 'https://github.com/rbong/vim-flog', 'v3.0.0')
--- install_plugin('/pack/nvim/start/gv', 'https://github.com/junegunn/gv.vim')
-
--- Setup Treesitter
+-- Setup plugins
 require('nvim-treesitter.configs').setup {
-    ensure_installed = {"c", "cpp", "markdown"},
+    ensure_installed = {"c", "cpp", "markdown", "asm" },
     sync_install = false,
     auto_install = true,
     highlight = {
@@ -85,7 +73,6 @@ require('nvim-treesitter.configs').setup {
     },
 }
 
--- Setup Blink CMP
 require('blink.cmp').setup {
     appearance = {use_nvim_cmp_as_default = true, nerd_font_variant = 'mono'},
     completion = {
@@ -103,10 +90,10 @@ require('blink.cmp').setup {
     },
     keymap = {
         preset = 'super-tab',
-    }
+    },
+    signature = { enabled = true } -- experimental
 }
 
--- Setup LSP
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup {
     cmd = { "clangd", "--header-insertion=never" },
@@ -117,40 +104,27 @@ lspconfig.clangd.setup {
         end
     end
 }
-lspconfig.glsl_analyzer.setup {}
-
--- Setup Theme
+require("scrollbar").setup()
 require("darcula").setup({})
-
--- Setup Lualine
 require('lualine').setup {}
-
--- Setup Icons
 require('nvim-web-devicons').setup {}
 
--- Configure Formatting
-vim.opt.tabstop = 4      -- Number of visual spaces per TAB
-vim.opt.shiftwidth = 4   -- Number of spaces to use for auto-indenting
-vim.opt.expandtab = true -- Use spaces instead of tabs
-vim.wo.number = true     -- Display line numbers
-vim.opt.showmatch = true -- Show matching parentheses and brackets
-
--- Configure Auto-Indent
+-- Configure vim
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.wo.number = true
+vim.opt.showmatch = true
+vim.opt.wrap = false
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.cindent = true
-
--- Enable Local Config
 vim.o.exrc = true
 vim.o.secure = true
-
--- Disable netrw banner
 vim.g.netrw_banner = 0
-
--- Set default leader key
 vim.g.mapleader = " "
 
--- Define format function
+-- Hotkeys and autocommands
 function _G.format()
     local buffer_path = vim.fn.expand('%:p')
     local cmd = 'clang-format -i -style=file ' .. buffer_path
@@ -162,19 +136,25 @@ function _G.format()
     vim.cmd("edit")
 end
 
--- Autocommands
 vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = { "*.cpp", "*.hpp" },
+    pattern = { "*.c", "*.h", "*.cpp", "*.hpp" },
     callback = function()
         format()
     end,
 })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'make',
+  callback = function()
+    vim.opt_local.expandtab = false
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+  end
+})
 
--- Configure Hotkeys
-vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent = true })        -- Open explorer
-vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })    -- Open terminal
-vim.api.nvim_set_keymap('n', '<leader>r', ':lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })       -- Rename
-vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })   -- Go to definition
-vim.api.nvim_set_keymap('n', '<leader>a', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })  -- Code action
-vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })                             -- Unfocus terminal with esc
-vim.api.nvim_set_keymap('n', '<leader>p', ':lua format()<CR>', { noremap = true, silent = true })                   -- Format
+vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent = true }) -- Open netrw
+vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>r', ':lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>a', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true }) -- Unfocus terminal with esc
+vim.api.nvim_set_keymap('n', '<leader>p', ':lua format()<CR>', { noremap = true, silent = true }) -- Format
