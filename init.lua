@@ -1,5 +1,6 @@
 -- clang: https://clang.llvm.org/get_started or package manager clangd: https://clangd.llvm.org/installation
 -- clang-format: apt install clang-format
+-- ripgrep: apt install ripgrep (for telescope live_grep)
 
 local function get_git_tag(path)
     local command = {'git', '-C', path, 'describe', '--tags'}
@@ -54,13 +55,15 @@ local function install_plugin(path, repo, tag)
 end
 
 -- Install plugins
+install_plugin('/pack/themes/start/gruvbox', 'https://github.com/ellisonleao/gruvbox.nvim', '2.0.0')
 install_plugin('/pack/nvim/start/nvim-lspconfig', 'https://github.com/neovim/nvim-lspconfig', 'v1.7.0')
 install_plugin('/pack/nvim/start/nvim-lualine', 'https://github.com/nvim-lualine/lualine.nvim')
 install_plugin('/pack/nvim/start/nvim-web-devicons', 'https://github.com/nvim-tree/nvim-web-devicons')
-install_plugin('/pack/themes/start/darcula-dark.nvim', 'https://github.com/xiantang/darcula-dark.nvim')
 install_plugin('/pack/nvim/start/nvim-treesitter', 'https://github.com/nvim-treesitter/nvim-treesitter', 'v0.9.3')
 install_plugin('/pack/nvim/start/blink.cmp', 'https://github.com/Saghen/blink.cmp', 'v1.1.1')
 install_plugin('/pack/nvim/start/nvim-scrollbar', 'https://github.com/petertriho/nvim-scrollbar')
+install_plugin('/pack/nvim/start/plenary.nvim', 'https://github.com/nvim-lua/plenary.nvim', 'v0.1.4')
+install_plugin('/pack/nvim/start/telescope.nvim', 'https://github.com/nvim-telescope/telescope.nvim', '0.1.8')
 
 -- Setup plugins
 require('nvim-treesitter.configs').setup {
@@ -104,8 +107,13 @@ lspconfig.clangd.setup {
         end
     end
 }
+
+vim.diagnostic.config({ virtual_text = {prefix = '⚠', spacing = 0, }, })
+
+vim.o.background = "dark"
+vim.cmd([[colorscheme gruvbox]])
+
 require("scrollbar").setup()
-require("darcula").setup({})
 require('lualine').setup {}
 require('nvim-web-devicons').setup {}
 
@@ -151,10 +159,14 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
+local telescope_builtin = require('telescope.builtin')
 vim.api.nvim_set_keymap('n', '<leader>e', ':Vex<CR>', { noremap = true, silent = true }) -- Open netrw
 vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>r', ':lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>b', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>a', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>f', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>g', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>h', [[<cmd>lua require('telescope.builtin').lsp_references(require('telescope.themes').get_cursor())<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true }) -- Unfocus terminal with esc
 vim.api.nvim_set_keymap('n', '<leader>p', ':lua format()<CR>', { noremap = true, silent = true }) -- Format
