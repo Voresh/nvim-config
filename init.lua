@@ -60,7 +60,7 @@ install_plugin('/pack/nvim/start/nvim-lspconfig', 'https://github.com/neovim/nvi
 install_plugin('/pack/nvim/start/nvim-lualine', 'https://github.com/nvim-lualine/lualine.nvim')
 install_plugin('/pack/nvim/start/nvim-web-devicons', 'https://github.com/nvim-tree/nvim-web-devicons')
 install_plugin('/pack/nvim/start/nvim-treesitter', 'https://github.com/nvim-treesitter/nvim-treesitter', 'v0.9.3')
-install_plugin('/pack/nvim/start/blink.cmp', 'https://github.com/Saghen/blink.cmp', 'v1.1.1')
+install_plugin('/pack/nvim/start/blink.cmp', 'https://github.com/Saghen/blink.cmp', 'v1.3.1')
 install_plugin('/pack/nvim/start/nvim-scrollbar', 'https://github.com/petertriho/nvim-scrollbar')
 install_plugin('/pack/nvim/start/plenary.nvim', 'https://github.com/nvim-lua/plenary.nvim', 'v0.1.4')
 install_plugin('/pack/nvim/start/telescope.nvim', 'https://github.com/nvim-telescope/telescope.nvim', '0.1.8')
@@ -170,3 +170,5 @@ vim.api.nvim_set_keymap('n', '<leader>g', [[<cmd>lua require('telescope.builtin'
 vim.api.nvim_set_keymap('n', '<leader>h', [[<cmd>lua require('telescope.builtin').lsp_references(require('telescope.themes').get_cursor())<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true }) -- Unfocus terminal with esc
 vim.api.nvim_set_keymap('n', '<leader>p', ':lua format()<CR>', { noremap = true, silent = true }) -- Format
+vim.api.nvim_set_keymap('n', '<Tab>', ':tabnext<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-Tab>', ':tabprevious<CR>', { noremap = true, silent = true })
