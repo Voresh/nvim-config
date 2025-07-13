@@ -94,6 +94,15 @@ require('blink.cmp').setup {
     keymap = {
         preset = 'super-tab',
     },
+    cmdline = {
+        enabled = true,
+        keymap = { 
+            ["<Tab>"] = { "select_and_accept", "fallback" },
+            ["<Down>"] = { "select_next", "fallback" },
+            ["<Up>"] = { "select_prev", "fallback" },
+        },
+        completion = { menu = { auto_show = true } },
+    },
     signature = { enabled = true } -- experimental
 }
 
